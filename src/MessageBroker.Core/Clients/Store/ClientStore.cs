@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MessageBroker.Core.Clients.Store
 {
@@ -16,6 +18,8 @@ namespace MessageBroker.Core.Clients.Store
             _sendQueues = new ConcurrentDictionary<Guid, IClient>();
         }
 
+        List<IClient> IClientStore.ConnectedClients => _sendQueues.Values.ToList();
+
 
         /// <inheritdoc />
         public void Add(IClient client)
@@ -27,6 +31,12 @@ namespace MessageBroker.Core.Clients.Store
         public void Remove(IClient client)
         {
             _sendQueues.TryRemove(client.Id, out var _);
+        }
+
+        /// <inheritdoc />
+        public int TotalClientsConnected()
+        {
+            return _sendQueues.Count;
         }
 
         /// <inheritdoc />

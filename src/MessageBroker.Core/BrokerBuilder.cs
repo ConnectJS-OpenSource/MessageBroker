@@ -105,13 +105,11 @@ namespace MessageBroker.Core
 
             _serviceCollection.AddSingleton<IPayloadProcessor, PayloadProcessor>();
             _serviceCollection.AddSingleton<IClientStore, ClientStore>();
-            _serviceCollection.AddSingleton<IMessageStore, InMemoryMessageStore>();
             _serviceCollection.AddSingleton<ISerializer, Serializer>();
             _serviceCollection.AddSingleton<IDeserializer, Deserializer>();
             _serviceCollection.AddSingleton<IRouteMatcher, RouteMatcher>();
             _serviceCollection.AddSingleton<IListener, TcpListener>();
             _serviceCollection.AddSingleton<IBroker, Broker>();
-
             _serviceCollection.AddTransient<IClient, Client>();
             _serviceCollection.AddTransient<IDispatcher, DefaultDispatcher>();
             _serviceCollection.AddTransient<ITopic, Topic>();

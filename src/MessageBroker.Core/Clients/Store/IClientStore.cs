@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MessageBroker.Core.Clients.Store
 {
@@ -26,5 +27,10 @@ namespace MessageBroker.Core.Clients.Store
         /// <param name="client">The object of type <see cref="IClient" /></param>
         /// <returns>Returns true if object is found</returns>
         bool TryGet(Guid clientId, out IClient client);
+
+        /// <summary>
+        /// Try to get an object of type <see cref="IClient" />
+        /// </summary>
+        List<IClient> ConnectedClients { get; }
     }
 }
