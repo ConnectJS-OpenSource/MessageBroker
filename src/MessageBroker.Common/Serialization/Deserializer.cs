@@ -253,5 +253,29 @@ namespace MessageBroker.Common.Serialization
                 ObjectPool.Shared.Return(binaryReader);
             }
         }
+
+        public ClientInfo ToClientInfo(Memory<byte> data)
+        {
+            var binaryReader = ObjectPool.Shared.Rent<BinaryProtocolReader>();
+            binaryReader.Setup(data);
+
+            try
+            {
+                var id = binaryReader.ReadNextGuid();
+                var clientId = binaryReader.ReadNextString();
+                var clientName = binaryReader.ReadNextString();
+
+                return new ClientInfo
+                {
+                    Id = id,
+                    ClientId = clientId,
+                    ClientName = clientName
+                };
+            }
+            finally
+            {
+                ObjectPool.Shared.Return(binaryReader);
+            }
+        }
     }
 }

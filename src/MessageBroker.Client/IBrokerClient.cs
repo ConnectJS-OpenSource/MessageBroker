@@ -40,6 +40,16 @@ namespace MessageBroker.Client
         void Disconnect();
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <param name="clientName"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<SendAsyncResult> PostClientInfo(string clientId, string clientName,
+            CancellationToken? cancellationToken = null);
+
+        /// <summary>
         /// Creates a new <see cref="ISubscription" /> from the provided topic name that can received messages
         /// sent to a topic
         /// </summary>

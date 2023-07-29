@@ -40,6 +40,10 @@ namespace MessageBroker.Core.PayloadProcessing
 
                 switch (type)
                 {
+                    case PayloadType.ClientInfo:
+                        var clientInfo = _deserializer.ToClientInfo(data);
+                        OnPostClientInfo(clientId, clientInfo);
+                        break;
                     case PayloadType.Msg:
                         var message = _deserializer.ToMessage(data);
                         OnMessage(clientId, message);
@@ -80,6 +84,13 @@ namespace MessageBroker.Core.PayloadProcessing
             }
         }
 
+        private void OnPostClientInfo(Guid clientId, ClientInfo clientInfo)
+        {
+            if (_clientStore.TryGet(clientId, out var client))
+            {
+                client.SetClientInfo(clientInfo.ClientId, clientInfo.ClientName);
+            }
+        }
 
         private void OnMessage(Guid clientId, Message message)
         {

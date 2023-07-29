@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using MessageBroker.Common.Tcp;
 using MessageBroker.Common.Tcp.EventArgs;
 using MessageBroker.Core.Clients;
@@ -22,6 +23,14 @@ namespace MessageBroker.Core
         private readonly ITopicStore _topicStore;
         private bool _disposed;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public event EventHandler<IClient> OnClientConnected;
+        /// <summary>
+        /// 
+        /// </summary>
+        public event EventHandler<IClient> OnClientDisconnected;
         /// <summary>
         /// Creates a new instance of <see cref="Broker" />
         /// </summary>
@@ -52,7 +61,6 @@ namespace MessageBroker.Core
         public void Start()
         {
             _listener.OnSocketAccepted += ClientConnected;
-
             _listener.Start();
             _topicStore.Setup();
             _messageStore.Setup();
@@ -87,12 +95,16 @@ namespace MessageBroker.Core
                 clientSession.OnDisconnected += ClientDisconnected;
                 clientSession.OnDataReceived += ClientDataReceived;
 
+                
+
                 // must add the socket to client store before calling StartReceiveProcess 
                 // otherwise we might receive messages before having access to client in client store
                 _clientStore.Add(clientSession);
 
                 clientSession.StartReceiveProcess();
                 clientSession.StartSendProcess();
+
+                OnClientConnected?.Invoke(this, clientSession);
 
                 _logger.LogInformation($"Client: {clientSession.Id} connected");
             }
@@ -112,13 +124,15 @@ namespace MessageBroker.Core
                     queue.ClientUnsubscribed(client);
 
                 _clientStore.Remove(client);
-            }
+                OnClientDisconnected?.Invoke(this, client);
+    }
         }
 
         private void ClientDataReceived(object clientSession, ClientSessionDataReceivedEventArgs eventArgs)
         {
             try
             {
+                
                 _payloadProcessor.OnDataReceived(eventArgs.Id, eventArgs.Data);
             }
             catch (Exception e)

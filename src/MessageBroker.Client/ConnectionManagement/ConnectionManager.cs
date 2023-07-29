@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using MessageBroker.Client.ConnectionManagement.ConnectionStatusEventArgs;
@@ -72,9 +74,12 @@ namespace MessageBroker.Client.ConnectionManagement
 
                 // create new tcp socket
                 var newTcpSocket = TcpSocket.NewFromEndPoint(endPoint);
+                
 
                 // once the TcpSocket is connected, create new client from it
                 var newClient = _serviceProvider.GetRequiredService<IClient>();
+                newClient.SetClientInfo(configuration.ClientId, configuration.ClientName);
+
                 newClient.Setup(newTcpSocket);
 
                 newClient.OnDataReceived += ClientDataReceived;
@@ -112,6 +117,7 @@ namespace MessageBroker.Client.ConnectionManagement
             }
 
             // note: must be called after releasing semaphore
+            //Socket.SendAsync(new Memory<byte>(Encoding.ASCII.GetBytes($"client-info:{configuration.ClientId}:{configuration.ClientName}")), new CancellationToken());
             OnConnected?.Invoke(this, new ClientConnectionEventArgs());
         }
 

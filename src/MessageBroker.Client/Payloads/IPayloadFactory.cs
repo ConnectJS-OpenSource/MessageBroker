@@ -8,7 +8,14 @@ namespace MessageBroker.Client.Payloads
     /// Factory pattern for create <see cref="SerializedPayload" /> from payloads
     /// </summary>
     public interface IPayloadFactory
-    {
+    {   
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <param name="clientName"></param>
+        /// <returns></returns>
+        SerializedPayload PostClientInfo(string clientId, string clientName);
         /// <summary>
         /// Will create a new <see cref="SerializedPayload" /> of <see cref="SubscribeTopic" /> payload
         /// </summary>

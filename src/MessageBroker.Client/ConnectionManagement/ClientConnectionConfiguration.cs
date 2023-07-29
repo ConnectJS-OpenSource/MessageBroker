@@ -16,5 +16,14 @@ namespace MessageBroker.Client.ConnectionManagement
         /// If true, once the connection fails it tries to reconnect to it
         /// </summary>
         public bool AutoReconnect { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string ClientId { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string ClientName { get; set; }
     }
 }

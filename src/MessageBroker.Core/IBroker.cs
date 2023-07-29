@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MessageBroker.Core.Clients;
+using System;
 
 namespace MessageBroker.Core
 {
@@ -12,6 +13,15 @@ namespace MessageBroker.Core
         /// ServiceProvider associated with this broker, used for testing
         /// </summary>
         IServiceProvider ServiceProvider { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        event EventHandler<IClient> OnClientConnected;
+        /// <summary>
+        /// 
+        /// </summary>
+        event EventHandler<IClient> OnClientDisconnected;
 
         /// <summary>
         /// Start the broker

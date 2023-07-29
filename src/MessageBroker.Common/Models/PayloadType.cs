@@ -16,6 +16,7 @@
         UnsubscribeTopic = 9,
         Ready = 10,
         Configure = 11,
-        TopicMessage = 12
+        TopicMessage = 12,
+        ClientInfo = 13
     }
 }

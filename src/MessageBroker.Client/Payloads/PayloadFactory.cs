@@ -105,5 +105,17 @@ namespace MessageBroker.Client.Payloads
 
             return _serializer.Serialize(payload);
         }
+
+        public SerializedPayload PostClientInfo(string clientId, string clientName)
+        {
+            var payload = new ClientInfo
+            {
+                Id = Guid.NewGuid(),
+                ClientId = clientId,
+                ClientName = clientName
+            };
+
+            return _serializer.Serialize(payload);
+        }
     }
 }

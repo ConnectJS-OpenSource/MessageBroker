@@ -2,6 +2,7 @@
 using System.Buffers;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
@@ -73,7 +74,10 @@ namespace MessageBroker.Core.Clients
         }
 
         /// <inheritdoc />
-        public Guid Id { get; }
+        public Guid Id { get; set; }
+
+        /// <inheritdoc />
+        public string ClientName { get; set; }
 
         /// <inheritdoc />
         public int MaxConcurrency { get; private set; }
@@ -89,6 +93,23 @@ namespace MessageBroker.Core.Clients
 
         /// <inheritdoc />
         public event EventHandler<ClientSessionDataReceivedEventArgs> OnDataReceived;
+
+        /// <inheritdoc />
+        public void SetClientInfo(string ClientId, string Name)
+        {
+            if(!string.IsNullOrEmpty(ClientId) && Guid.TryParse(ClientId, out var id)) {
+                this.Id = id;
+            }
+
+            if(!string.IsNullOrEmpty(Name))
+            {
+                this.ClientName = Name;
+            }
+            else
+            {
+                this.ClientName = Id.ToString();
+            }
+        }
 
         /// <inheritdoc />
         public void Setup(ISocket socket)

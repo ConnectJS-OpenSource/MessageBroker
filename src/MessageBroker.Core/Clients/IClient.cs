@@ -24,6 +24,17 @@ namespace MessageBroker.Core.Clients
         Guid Id { get; }
 
         /// <summary>
+        /// Identifier of this IClientSession
+        /// </summary>
+        string ClientName { get; }
+
+        /// <summary>
+        /// Set Identifier of this IClientSession
+        /// </summary>
+        void SetClientInfo(string ClientId, string Name);
+
+
+        /// <summary>
         /// The max number of parallel messages that can be sent to client
         /// </summary>
         int MaxConcurrency { get; }

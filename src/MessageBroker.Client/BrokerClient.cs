@@ -83,6 +83,14 @@ namespace MessageBroker.Client
         }
 
         /// <inheritdoc />
+        public Task<SendAsyncResult> PostClientInfo(string clientId, string clientName,
+            CancellationToken? cancellationToken = null)
+        {
+            var serializedPayload = _payloadFactory.PostClientInfo(clientId, clientName);
+            return _sendDataProcessor.SendAsync(serializedPayload, false, cancellationToken ?? CancellationToken.None);
+        }
+
+        /// <inheritdoc />
         public Task<SendAsyncResult> PublishAsync(string route, byte[] data,
             CancellationToken? cancellationToken = null)
         {

@@ -201,5 +201,24 @@ namespace MessageBroker.Common.Serialization
                 ObjectPool.Shared.Return(binaryWriter);
             }
         }
+
+        public SerializedPayload Serialize(ClientInfo clientInfo)
+        {
+            var binaryWriter = ObjectPool.Shared.Rent<BinaryProtocolWriter>();
+
+            try
+            {
+                return binaryWriter
+                    .WriteType(PayloadType.ClientInfo)
+                    .WriteId(clientInfo.Id)
+                    .WriteStr(clientInfo.ClientId)
+                    .WriteStr(clientInfo.ClientName)
+                    .ToSerializedPayload();
+            }
+            finally
+            {
+                ObjectPool.Shared.Return(binaryWriter);
+            }
+        }
     }
 }

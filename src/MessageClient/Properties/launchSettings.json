@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MessageClient": {
+      "commandName": "Project",
+      "commandLineArgs": "--broker-address \"localhost:6666\" --client-id \"b74579e7-5834-4f6c-95e5-95d6d5c42002\" --client-name \"my-broker-client\""
+    }
+  }
+}

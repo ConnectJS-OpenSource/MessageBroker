@@ -21,5 +21,6 @@ namespace MessageBroker.Common.Serialization
         TopicDeclare ToTopicDeclare(Memory<byte> data);
         TopicDelete ToTopicDelete(Memory<byte> data);
         ConfigureClient ToConfigureClient(Memory<byte> data);
+        ClientInfo ToClientInfo(Memory<byte> data);
     }
 }
