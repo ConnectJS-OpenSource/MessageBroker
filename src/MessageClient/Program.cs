@@ -14,10 +14,10 @@ Console.WriteLine("Client-Id - {0}", flags.ClientId);
 brokerClient.Connect(new ClientConnectionConfiguration
 {
     EndPoint = new DnsEndPoint(flags.BrokerAddress.Split(':')[0], int.Parse(flags.BrokerAddress.Split(':')[1])),
-    AutoReconnect = true
+    AutoReconnect = true,
+    ClientId = flags.ClientId,
+    ClientName = flags.ClientName
 });
-
-await brokerClient.PostClientInfo(flags.ClientId, flags.ClientName);
 
 await brokerClient.DeclareTopicAsync(flags.ClientId, flags.ClientId);
 var subscription = await brokerClient.GetTopicSubscriptionAsync(flags.ClientId);
@@ -31,6 +31,7 @@ subscription.MessageReceived += (msg) =>
 
 while (true)
 {
-    
-    await Task.Delay(5000);
+    Console.WriteLine("Connected {0}", brokerClient.Connected);
+    await brokerClient.PublishAsync(flags.ClientId, Encoding.ASCII.GetBytes(DateTime.Now.ToString()));
+    await Task.Delay(1000);
 }

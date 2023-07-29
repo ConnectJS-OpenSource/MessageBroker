@@ -87,7 +87,7 @@ namespace MessageBroker.Client
             CancellationToken? cancellationToken = null)
         {
             var serializedPayload = _payloadFactory.PostClientInfo(clientId, clientName);
-            return _sendDataProcessor.SendAsync(serializedPayload, false, cancellationToken ?? CancellationToken.None);
+            return _sendDataProcessor.SendAsync(serializedPayload, true, cancellationToken ?? CancellationToken.None);
         }
 
         /// <inheritdoc />

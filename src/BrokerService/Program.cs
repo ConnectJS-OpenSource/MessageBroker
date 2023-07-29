@@ -13,7 +13,7 @@ using var broker = new BrokerBuilder()
                 .UseEndPoint(IPEndPoint.Parse(flags.BindAddress))
                 .UseMemoryStore()
                 .ConfigureLogger(config =>
-                {
+                { 
                     config.SetMinimumLevel(Enum.Parse<LogLevel>(flags.LogType));
                     config.AddConsole();
                 })

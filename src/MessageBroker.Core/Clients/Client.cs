@@ -76,6 +76,11 @@ namespace MessageBroker.Core.Clients
         /// <inheritdoc />
         public Guid Id { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public Guid ClientId { get; set; }  
+
         /// <inheritdoc />
         public string ClientName { get; set; }
 
@@ -98,16 +103,12 @@ namespace MessageBroker.Core.Clients
         public void SetClientInfo(string ClientId, string Name)
         {
             if(!string.IsNullOrEmpty(ClientId) && Guid.TryParse(ClientId, out var id)) {
-                this.Id = id;
+                this.ClientId = id;
             }
 
             if(!string.IsNullOrEmpty(Name))
             {
                 this.ClientName = Name;
-            }
-            else
-            {
-                this.ClientName = Id.ToString();
             }
         }
 

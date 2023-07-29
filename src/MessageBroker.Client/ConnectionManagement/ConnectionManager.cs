@@ -36,7 +36,7 @@ namespace MessageBroker.Client.ConnectionManagement
             _receiveDataProcessor = receiveDataProcessor;
             _logger = logger;
             _serviceProvider = serviceProvider;
-            _semaphore = new SemaphoreSlim(1, 1);
+            _semaphore = new SemaphoreSlim(1, 5);
         }
 
 
@@ -61,7 +61,7 @@ namespace MessageBroker.Client.ConnectionManagement
             try
             {
                 // wait for semaphore to be release by SendAsync
-                // otherwise creating new client while SendAsync is using the old client would cause weired behavior
+                // otherwise creating new client while SendAsync is using the old client would cause weired
                 _semaphore.Wait();
 
                 // connect the tcp client
@@ -93,6 +93,8 @@ namespace MessageBroker.Client.ConnectionManagement
 
                 _logger.LogInformation(
                     $"Broker client connected to: {_configuration.EndPoint} with auto connect: {_configuration.AutoReconnect}");
+
+                
             }
             catch (Exception e)
             {
@@ -118,13 +120,14 @@ namespace MessageBroker.Client.ConnectionManagement
 
             // note: must be called after releasing semaphore
             //Socket.SendAsync(new Memory<byte>(Encoding.ASCII.GetBytes($"client-info:{configuration.ClientId}:{configuration.ClientName}")), new CancellationToken());
+            
             OnConnected?.Invoke(this, new ClientConnectionEventArgs());
         }
 
         /// <inheritdoc />
         public void Reconnect()
         {
-            if (Socket.Connected)
+            if (Socket?.Connected ?? false)
                 throw new InvalidOperationException("The socket object is in connected state, cannot be reconnected");
 
             Connect(_configuration ?? throw new ArgumentNullException("No configuration exists for reconnection"));

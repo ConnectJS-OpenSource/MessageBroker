@@ -89,7 +89,9 @@ namespace MessageBroker.Core.PayloadProcessing
             if (_clientStore.TryGet(clientId, out var client))
             {
                 client.SetClientInfo(clientInfo.ClientId, clientInfo.ClientName);
+                SendReceivedPayloadOk(clientId, clientInfo.Id);
             }
+            
         }
 
         private void OnMessage(Guid clientId, Message message)

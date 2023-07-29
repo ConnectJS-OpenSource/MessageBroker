@@ -24,6 +24,11 @@ namespace MessageBroker.Core.Clients
         Guid Id { get; }
 
         /// <summary>
+        /// 
+        /// </summary>
+        Guid ClientId { get; set; }
+
+        /// <summary>
         /// Identifier of this IClientSession
         /// </summary>
         string ClientName { get; }
